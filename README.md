@@ -39,11 +39,3 @@ This is my second project using Express.js, and I'm pretty happy with how it tur
 ## 📷 Screenshots
 ![screencapture-localhost-3000-2025-06-29-23_15_40](https://github.com/user-attachments/assets/74b366e4-a2d4-476d-9578-6cb9ccb3234c)
 ![screencapture-localhost-3000-admin-2025-06-29-23_16_38](https://github.com/user-attachments/assets/4e1c2d55-b5be-4fad-9694-d9ced66abcf0)
-
-## 🛠️ Installation
-```console
-git clone https://github.com/YourUsername/dodonut.git
-cd dodonut
-npm install
-npm start
-```
