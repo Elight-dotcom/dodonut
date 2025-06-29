@@ -1,0 +1,70 @@
+<nav class="bg-primary py-4 px-6 md:px-20 flex justify-between items-center shadow-md z-50 fixed top-0 left-0 right-0">
+  <div class="flex items-center space-x-4">
+    <img class="w-[67px]" src="/images/altLogo.png" alt="Logo" />
+    <p class="hidden md:block text-white text-2xl md:text-3xl font-extrabold tracking-wide">DODONUT</p>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <div class="relative w-full max-w-sm hidden md:block">
+      <input
+        id="searchInput"
+        type="text"
+        name="q"
+        placeholder="search here..."
+        class="w-full py-2 pl-5 pr-12 rounded-full bg-white text-sm shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+      />
+      <div
+        class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-black hover:text-gray-600 transition-all"
+      >
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-width="2" d="M21 21l-3.5-3.5M17 10a7 7 0 11-14 0 7 7 0 0114 0Z" />
+        </svg>
+      </div>
+    </div>
+
+    <div onclick="toggleSearch()" class="md:hidden cursor-pointer text-white hover:text-gray-200">
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-width="2" d="M21 21l-3.5-3.5M17 10a7 7 0 11-14 0 7 7 0 0114 0Z" />
+      </svg>
+    </div>
+
+
+    <div class="relative cursor-pointer text-white hover:text-gray-200">
+      <svg onclick="toggleModal('cart')" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 100 4 2 2 0 000-4Zm8 0a2 2 0 100 4 2 2 0 000-4Zm-8.5-3h9.25L19 7H7.312" />
+      </svg>
+      <div class="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full border-2 border-white"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Search -->
+<div id="mobileSearchContainer"
+  class="md:hidden fixed top-[90px] left-0 right-0 bg-white px-6 py-4 shadow-md transform -translate-y-full transition-transform duration-300 ease-in-out z-40">
+  <div class="relative">
+    <input
+      id="searchInput"
+      type="text"
+      name="q"
+      placeholder="Search here..."
+      class="w-full py-2 px-5 pr-12 rounded-full border border-gray-300 text-sm shadow focus:outline-none focus:ring-2 focus:ring-primary"
+    />
+
+    <button type="submit"
+      class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-primary">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-width="2" d="M21 21l-3.5-3.5M17 10a7 7 0 11-14 0 7 7 0 0114 0Z" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+
+<script>
+  function toggleSearch() {
+    const searchContainer = document.getElementById('mobileSearchContainer');
+    searchContainer.classList.toggle('-translate-y-full');
+    searchContainer.classList.toggle('translate-y-0');
+  }
+</script>

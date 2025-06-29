@@ -1,0 +1,65 @@
+.scrollbar-hide::-webkit-scrollbar {
+  height: 8px;
+}
+.scrollbar-hide::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-hide::-webkit-scrollbar-thumb {
+  background-color: #FF7E26;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollbar-modal::-webkit-scrollbar {
+  height: 8px;
+}
+.scrollbar-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-modal::-webkit-scrollbar-thumb {
+  background-color: #FF7E26;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.payment-option input[type="radio"]:checked + div .radio-indicator {
+    background-color: #FF7E26;
+    border-color: #FF7E26;
+    position: relative;
+}
+
+.payment-option input[type="radio"]:checked + div .radio-indicator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.payment-option input[type="radio"]:checked + div {
+    border-color: #FF7E26 !important;
+    background-color: #ffede8;
+}
+
+@media only screen and (max-width: 768px) {
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

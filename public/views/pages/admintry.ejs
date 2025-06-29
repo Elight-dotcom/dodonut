@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Donut Store - Dashboard</title>
+    <link href="/css/tailwind.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <!-- Sidebar -->
+    <div class="flex h-screen">
+        <div class="w-64 bg-gradient-to-b from-primary to-dark text-white">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-cookie-bite mr-3"></i>
+                    Donut Admin
+                </h1>
+            </div>
+            <nav class="mt-6">
+                <a href="#" onclick="showSection('dashboard')" class="nav-link flex items-center px-6 py-3 hover:bg-pink-700 transition-colors">
+                    <i class="fas fa-chart-pie mr-3"></i>
+                    Dashboard
+                </a>
+                <a href="#" onclick="showSection('products')" class="nav-link flex items-center px-6 py-3 hover:bg-pink-700 transition-colors">
+                    <i class="fas fa-cookie mr-3"></i>
+                    Produk
+                </a>
+                <a href="#" onclick="showSection('orders')" class="nav-link flex items-center px-6 py-3 hover:bg-pink-700 transition-colors">
+                    <i class="fas fa-shopping-cart mr-3"></i>
+                    Pesanan
+                </a>
+                <a href="#" onclick="showSection('analytics')" class="nav-link flex items-center px-6 py-3 hover:bg-pink-700 transition-colors">
+                    <i class="fas fa-chart-bar mr-3"></i>
+                    Analitik
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <h2 id="page-title" class="text-2xl font-semibold text-gray-800">Dashboard</h2>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-600">Halo, Administrator</span>
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="Admin" class="w-10 h-10 rounded-full">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                <i class="fas fa-dollar-sign text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Total Pendapatan</p>
+                                <p id="total-revenue" class="text-2xl font-semibold text-gray-900">Rp 15.680.000</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                                <i class="fas fa-shopping-cart text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Total Pesanan</p>
+                                <p id="total-orders" class="text-2xl font-semibold text-gray-900">342</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                                <i class="fas fa-cookie text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Total Produk</p>
+                                <p id="total-products" class="text-2xl font-semibold text-gray-900">12</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold mb-4">Penjualan Mingguan</h3>
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold mb-4">Produk Terlaris</h3>
+                        <canvas id="topProductsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div id="products-section" class="p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold">Manajemen Produk</h3>
+                    <button onclick="openAddProductModal()" class="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Tambah Produk
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produk</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harga</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stok</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table" class="bg-white divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div id="orders-section" class="p-6 hidden">
+                <h3 class="text-xl font-semibold mb-6">Daftar Pesanan</h3>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Pesanan</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pelanggan</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table" class="bg-white divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div id="analytics-section" class="p-6 hidden">
+                <h3 class="text-xl font-semibold mb-6">Analitik Penjualan</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="text-lg font-semibold mb-4">Tren Penjualan Bulanan</h4>
+                        <canvas id="monthlyTrendChart"></canvas>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="text-lg font-semibold mb-4">Kategori Terlaris</h4>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modalTitle" class="text-lg font-semibold">Tambah Produk</h3>
+                    <button onclick="closeProductModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="productForm">
+                    <input type="hidden" id="productId" value="">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nama Produk</label>
+                        <input type="text" id="productName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Harga</label>
+                        <input type="number" id="productPrice" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Stok</label>
+                        <input type="number" id="productStock" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
+                        <textarea id="productDescription" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"></textarea>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button type="submit" class="flex-1 bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700 transition-colors">Simpan</button>
+                        <button type="button" onclick="closeProductModal()" class="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition-colors">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        let products = [
+            { id: 1, name: 'Donut Coklat', price: 15000, stock: 50, description: 'Donut lezat dengan topping coklat' },
+            { id: 2, name: 'Donut Strawberry', price: 18000, stock: 30, description: 'Donut dengan rasa strawberry segar' },
+            { id: 3, name: 'Donut Original', price: 12000, stock: 80, description: 'Donut klasik tanpa topping' },
+            { id: 4, name: 'Donut Keju', price: 20000, stock: 25, description: 'Donut dengan keju leleh' },
+            { id: 5, name: 'Donut Matcha', price: 22000, stock: 15, description: 'Donut dengan rasa matcha premium' }
+        ];
+
+        let orders = [
+            { id: 'ORD001', customer: 'John Doe', total: 45000, status: 'Selesai', date: '2024-06-20' },
+            { id: 'ORD002', customer: 'Jane Smith', total: 60000, status: 'Proses', date: '2024-06-21' },
+            { id: 'ORD003', customer: 'Bob Johnson', total: 30000, status: 'Selesai', date: '2024-06-22' },
+            { id: 'ORD004', customer: 'Alice Brown', total: 75000, status: 'Pending', date: '2024-06-23' },
+            { id: 'ORD005', customer: 'Charlie Wilson', total: 40000, status: 'Selesai', date: '2024-06-24' }
+        ];
+
+        let currentEditId = null;
+
+        // Navigation
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('[id$="-section"]').forEach(el => el.classList.add('hidden'));
+            // Show selected section
+            document.getElementById(section + '-section').classList.remove('hidden');
+            // Update page title
+            const titles = {
+                'dashboard': 'Dashboard',
+                'products': 'Manajemen Produk',
+                'orders': 'Daftar Pesanan',
+                'analytics': 'Analitik Penjualan'
+            };
+            document.getElementById('page-title').textContent = titles[section];
+            
+            // Update active nav
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-pink-700');
+            });
+            event.target.classList.add('bg-pink-700');
+
+            // Load section data
+            if (section === 'products') loadProducts();
+            if (section === 'orders') loadOrders();
+            if (section === 'analytics') loadAnalytics();
+        }
+
+        // Products Management
+        function loadProducts() {
+            const tbody = document.getElementById('products-table');
+            tbody.innerHTML = products.map(product => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-cookie text-pink-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${product.name}</div>
+                                <div class="text-sm text-gray-500">${product.description}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp ${product.price.toLocaleString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${product.stock}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full ${product.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${product.stock > 0 ? 'Tersedia' : 'Habis'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="editProduct(${product.id})" class="text-blue-600 hover:text-blue-900 mr-3">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button onclick="deleteProduct(${product.id})" class="text-red-600 hover:text-red-900">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openAddProductModal() {
+            document.getElementById('modalTitle').textContent = 'Tambah Produk';
+            document.getElementById('productForm').reset();
+            currentEditId = null;
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                document.getElementById('modalTitle').textContent = 'Edit Produk';
+                document.getElementById('productName').value = product.name;
+                document.getElementById('productPrice').value = product.price;
+                document.getElementById('productStock').value = product.stock;
+                document.getElementById('productDescription').value = product.description;
+                currentEditId = id;
+                document.getElementById('productModal').classList.remove('hidden');
+            }
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+                products = products.filter(p => p.id !== id);
+                loadProducts();
+                updateStats();
+            }
+        }
+
+        // Form submission
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('productName').value;
+            const price = parseInt(document.getElementById('productPrice').value);
+            const stock = parseInt(document.getElementById('productStock').value);
+            const description = document.getElementById('productDescription').value;
+
+            if (currentEditId) {
+                // Edit existing product
+                const index = products.findIndex(p => p.id === currentEditId);
+                products[index] = { ...products[index], name, price, stock, description };
+            } else {
+                // Add new product
+                const newId = Math.max(...products.map(p => p.id)) + 1;
+                products.push({ id: newId, name, price, stock, description });
+            }
+
+            loadProducts();
+            updateStats();
+            closeProductModal();
+        });
+
+        // Orders Management
+        function loadOrders() {
+            const tbody = document.getElementById('orders-table');
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${order.id}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${order.customer}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp ${order.total.toLocaleString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}">
+                            ${order.status}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${order.date}</td>
+                </tr>
+            `).join('');
+        }
+
+        function getStatusColor(status) {
+            switch(status) {
+                case 'Selesai': return 'bg-green-100 text-green-800';
+                case 'Proses': return 'bg-blue-100 text-blue-800';
+                case 'Pending': return 'bg-yellow-100 text-yellow-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        // Stats Update
+        function updateStats() {
+            document.getElementById('total-products').textContent = products.length;
+            const totalRevenue = orders.filter(o => o.status === 'Selesai').reduce((sum, o) => sum + o.total, 0);
+            document.getElementById('total-revenue').textContent = `Rp ${totalRevenue.toLocaleString()}`;
+            document.getElementById('total-orders').textContent = orders.length;
+        }
+
+        // Charts
+        function initCharts() {
+            // Sales Chart
+            const salesCtx = document.getElementById('salesChart').getContext('2d');
+            new Chart(salesCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+                    datasets: [{
+                        label: 'Penjualan (Rp)',
+                        data: [1200000, 1900000, 800000, 1500000, 2000000, 2500000, 1800000],
+                        borderColor: '#ec4899',
+                        backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Top Products Chart
+            const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+            new Chart(topProductsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Donut Coklat', 'Donut Strawberry', 'Donut Original', 'Donut Keju', 'Lainnya'],
+                    datasets: [{
+                        data: [30, 25, 20, 15, 10],
+                        backgroundColor: ['#ec4899', '#f97316', '#8b5cf6', '#06b6d4', '#10b981']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function loadAnalytics() {
+            // Monthly Trend Chart
+            const monthlyCtx = document.getElementById('monthlyTrendChart').getContext('2d');
+            new Chart(monthlyCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Penjualan Bulanan',
+                        data: [45000000, 52000000, 48000000, 61000000, 55000000, 67000000],
+                        backgroundColor: '#ec4899'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Category Chart
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            new Chart(categoryCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Coklat', 'Buah', 'Original', 'Keju', 'Premium'],
+                    datasets: [{
+                        data: [35, 25, 20, 12, 8],
+                        backgroundColor: ['#8b4513', '#ff6b6b', '#ffd93d', '#ffb347', '#dda0dd']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            updateStats();
+            initCharts();
+        });
+    </script>
+</body>
+</html>

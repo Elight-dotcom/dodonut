@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="flex h-screen">
+        <div class="w-64 bg-primary text-white">
+            <div class="p-6 flex flex-row">
+                <img src="/images/altLogo.png" alt="" class="w-12 h-12 object-contain mr-3">
+                <h1 class="text-2xl font-bold flex items-center">
+                    DODONUT Admin
+                </h1>
+            </div>
+            <nav class="mt-6">
+                <a href="#" onclick="showSection('dashboard', event)" class="nav-link flex items-center px-6 py-3  transition-colors">
+                    <svg class="mr-3 w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13.5 2c-.178 0-.356.013-.492.022l-.074.005a1 1 0 0 0-.934.998V11a1 1 0 0 0 1 1h7.975a1 1 0 0 0 .998-.934l.005-.074A7.04 7.04 0 0 0 22 10.5 8.5 8.5 0 0 0 13.5 2Z"/>
+                        <path d="M11 6.025a1 1 0 0 0-1.065-.998 8.5 8.5 0 1 0 9.038 9.039A1 1 0 0 0 17.975 13H11V6.025Z"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" onclick="showSection('products', event)" class="nav-link flex items-center px-6 py-3 bg-primary hover:bg-dark transition-colors">
+                    <svg class="mr-3 w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path fill="currentColor" fill-rule="evenodd" d="M12.0212 2.37541c.2069.29981.2344.6884.0718 1.01435-.0835.16728-.1286.49646-.0866.81839.0345.26443.1525.51845.3564.72235.3798.37974.9446.46622 1.4086.25366.5022-.23 1.0957-.0094 1.3256.49272.0358.07797.0606.15815.0752.23883.0722.36885-.0676.76315-.391.99974-.067.04901-.1315.10409-.1929.16547-.6377.63769-.6377 1.67158 0 2.30927.6377.63771 1.6716.63771 2.3093 0 .1104-.11046.2008-.23148.2721-.35918.2649-.47416.8598-.65023 1.3401-.3966.4802.25363.6702.84422.428 1.33031-.1068.21428-.1459.45618-.1151.69208.033.2531.146.4962.3412.6915.265.265.622.3806.9709.3452.0473-.0048.095-.0062.1425-.0043.111.0047.5252-.0071.7534-.0158.2865-.0108.5639.1018.7617.3093.1978.2075.2971.4899.2726.7756-.1945 2.2647-1.1592 4.478-2.8921 6.2109-3.9053 3.9053-10.23692 3.9053-14.14216 0-3.90524-3.9052-3.90524-10.23686 0-14.1421C6.727 3.13084 8.88362 2.17056 11.0983 1.94837c.3624-.03636.716.12723.9229.42704ZM8.65695 8.41498c-.55229 0-1 .44771-1 1 0 .55228.44771 1.00002 1 1.00002h.01c.55228 0 1-.44774 1-1.00002 0-.55229-.44772-1-1-1h-.01ZM7.27106 12c-.55229 0-1 .4478-1 1 0 .5523.44771 1 1 1h.01c.55228 0 1-.4477 1-1 0-.5522-.44772-1-1-1h-.01Zm7.68744 1.9157c-.5523 0-1 .4477-1 1s.4477 1 1 1h.01c.5523 0 1-.4477 1-1s-.4477-1-1-1h-.01ZM11 16c-.5523 0-1.00004.4478-1.00004 1 0 .5523.44774 1 1.00004 1h.01c.5523 0 1-.4477 1-1 0-.5522-.4477-1-1-1H11Z" clip-rule="evenodd"/>
+                    </svg>
+                    Products
+                </a>
+                <a href="#" onclick="showSection('categories', event)" class="nav-link flex items-center px-6 py-3 bg-primary hover:bg-dark transition-colors">
+                    <svg class="mr-3 w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.045 3.007 12.31 3a1.965 1.965 0 0 0-1.4.585l-7.33 7.394a2 2 0 0 0 0 2.805l6.573 6.631a1.957 1.957 0 0 0 1.4.585 1.965 1.965 0 0 0 1.4-.585l7.409-7.477A2 2 0 0 0 21 11.479v-5.5a2.972 2.972 0 0 0-2.955-2.972Zm-2.452 6.438a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+                    </svg>
+                    Categories
+                </a>
+                <a href="#" onclick="showSection('sales', event)" class="nav-link flex items-center px-6 py-3 bg-primary hover:bg-dark transition-colors">
+                    <svg class="mr-3 w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M4 4a1 1 0 0 1 1-1h1.5a1 1 0 0 1 .979.796L7.939 6H19a1 1 0 0 1 .979 1.204l-1.25 6a1 1 0 0 1-.979.796H9.605l.208 1H17a3 3 0 1 1-2.83 2h-2.34a3 3 0 1 1-4.009-1.76L5.686 5H5a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
+                    </svg>
+                    Sales
+                </a>
+                <a href="#" onclick="showSection('analytics', event)" class="nav-link flex items-center px-6 py-3 bg-primary hover:bg-dark transition-colors">
+                    <svg class="mr-3 w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v15a1 1 0 0 0 1 1h15M8 16l2.5-5.5 3 3L17.273 7 20 9.667"/>
+                    </svg>
+                    Analytics
+                </a>
+                <a href="/admin/logout" class="nav-link flex items-center px-6 py-3 bg-primary hover:bg-dark transition-colors">
+                    <svg class="mr-3 w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"/>
+                    </svg>
+                    Logout
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto">
+            <header class="bg-white shadow-sm border-b">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <h2 id="page-title" class="text-2xl font-semibold text-gray-800">Dashboard</h2>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-600">Woi, Admin</span>
+                    </div>
+                </div>
+            </header>
+            <!-- Dashboard -->
+             <div id="dashboard-section" class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                <svg class="w-6 h-6 text-green-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17.345a4.76 4.76 0 0 0 2.558 1.618c2.274.589 4.512-.446 4.999-2.31.487-1.866-1.273-3.9-3.546-4.49-2.273-.59-4.034-2.623-3.547-4.488.486-1.865 2.724-2.899 4.998-2.31.982.236 1.87.793 2.538 1.592m-3.879 12.171V21m0-18v2.2"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Total Pendapatan Minggu Ini</p>
+                                <p id="total-revenue" class="text-2xl font-semibold text-gray-900"><%= totalWeekRupiah %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                                <svg class="w-6 h-6 text-blue-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v15a1 1 0 0 0 1 1h15M8 16l2.5-5.5 3 3L17.273 7 20 9.667"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Total Pesanan Minggu Ini</p>
+                                <p id="total-orders" class="text-2xl font-semibold text-gray-900"><%= totalOrder %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold mb-4">Penjualan Mingguan</h3>
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold mb-4">Produk Terlaris</h3>
+                        <canvas id="topProductsChart"></canvas>
+                    </div>
+                </div>
+             </div>
+
+             <!-- Products -->
+            <div id="products-section" class="p-6 hidden">
+                <div class="flex justify-end items-center mb-6">
+                    <button onclick="openAddProductModal()" class="bg-primary flex text-white px-4 py-2 rounded-lg hover:bg-dark transition-colors">
+                        <svg class="w-6 h-6 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+                        </svg>
+                        Tambah Produk
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    ID
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Nama Produk
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Harga
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Stok
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Status
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Aksi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table" class="bg-white divide-y divide-gray-200">
+                            <%- include('../partials/productTable') %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div id="categories-section" class="p-6 hidden">
+                <div class="flex justify-end items-center mb-6">
+                    <button onclick="closeSalesModal()" class="bg-primary flex text-white px-4 py-2 rounded-lg hover:bg-dark transition-colors">
+                        <svg class="w-6 h-6 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+                        </svg>
+                        Tambah Kategori
+                    </button>
+                </div>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    ID
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Nama Kategori
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Warna
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Preview
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Aksi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="categories-table" class="bg-white divide-y divide-gray-200">
+                            <%- include('../partials/categoryTable') %>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-6 bg-white rounded-lg shadow-md overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    ID
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Nama Produk
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Kategori
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Aksi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-category-table" class="bg-white divide-y divide-gray-200">
+                            <%- include('../partials/productCategoryTable') %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sales -->
+            <div id="sales-section" class="p-6 hidden">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Penjualan</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pelanggan</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-table" class="bg-white divide-y divide-gray-200">
+                            <% sales.forEach(sale => {%>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%- sale.id_sales %></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%- sale.cust_name %></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%- sale.total %></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2023-01-01</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button 
+                                            data-id="<%- sale.id_sales %>"
+                                            class="btnDetail text-green-600 hover:text-green-900 flex items-center"
+                                        >
+                                            <svg class="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                                            </svg>
+                                            Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Analytics -->
+            <div id="analytics-section" class="p-6 hidden">
+
+                <!-- Chart Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <!-- Penjualan Mingguan -->
+                    <div class="bg-white rounded-2xl shadow-md p-6">
+                        <h4 class="text-lg font-semibold mb-4 text-gray-700">📅 Penjualan Mingguan</h4>
+                        <canvas id="salesWeeklyChart" class="w-full"></canvas>
+                    </div>
+
+                    <!-- Penjualan Bulanan -->
+                    <div class="bg-white rounded-2xl shadow-md p-6">
+                        <h4 class="text-lg font-semibold mb-4 text-gray-700">📆 Penjualan Bulanan</h4>
+                        <canvas id="salesMonthlyChart" class="w-full"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Rata-Rata Nilai Pesanan -->
+                    <div class="bg-white rounded-2xl shadow-md p-6">
+                        <h4 class="text-lg font-semibold mb-4 text-gray-700">💰 Rata-Rata Nilai Pesanan</h4>
+                        <canvas id="averageSpendChart" class="w-full"></canvas>
+                    </div>
+
+                    <!-- Penjualan Berdasarkan Produk -->
+                    <div class="bg-white rounded-2xl shadow-md p-6">
+                        <h4 class="text-lg font-semibold mb-4 text-gray-700">🍩 Penjualan Berdasarkan Produk</h4>
+                        <canvas id="salesByProductChart" class="w-full"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/adminModal') %>
+
+    <script>
+        const salesWithDetail = <%- JSON.stringify(salesWithDetail || []) %>;
+        console.log(salesWithDetail);
+    </script>
+    <script src="/js/adminMain.js"></script>
+    <script>
+        function changeDay(day) {
+            return day === 'Sunday' ? 'Minggu' : 
+            day === 'Monday' ? 'Senin' :
+            day === 'Tuesday' ? 'Selasa' :
+            day === 'Wednesday' ? 'Rabu' :
+            day === 'Thursday' ? 'Kamis' :
+            day === 'Friday' ? 'Jumat' :
+            day === 'Saturday' ? 'Sabtu' : ''
+        } 
+        // Charts
+        function initCharts() {
+            const weeks = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            const dailySales = <%- JSON.stringify(dailySales) %>;
+            const monthlySales = <%- JSON.stringify(monthlySales) %>;
+            const averageSpend = <%- JSON.stringify(avgDailySpend) %>;
+            const favourites = <%- JSON.stringify(favourites) %>;
+            
+            const labelsWeekly = dailySales.map(item =>
+                changeDay(item.day)
+            );
+            const totalsWeekly = dailySales.map(item => item.total);
+
+            const labelsMonthly = monthlySales.map(item =>
+                months[item.month - 1]
+            );
+            const totalsMonthly = monthlySales.map(item => item.total);
+
+            const labelsAverage = averageSpend.map(item =>
+                changeDay(item.day)
+            );
+            const totalsAverage = averageSpend.map(item => item.avg_daily_sales);
+
+            const labelsFavourite = favourites.map(item =>
+                item.product_name
+            );
+            const totalsFavourite = favourites.map(item => item.count);
+
+            // Sales Chart
+            const salesCtx = document.getElementById('salesChart').getContext('2d');
+            new Chart(salesCtx, {
+                type: 'line',
+                data: {
+                    labels: labelsWeekly,
+                    datasets: [{
+                        label: 'Penjualan (Rp)',
+                        data: totalsWeekly,
+                        borderColor: '#FF7E26',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Top Products Chart
+            const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+            new Chart(topProductsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: labelsFavourite,
+                    datasets: [{
+                        data: totalsFavourite,
+                        backgroundColor: ['#FF7E26', '#FFD93D', '#00C897', '#3ABEF9', '#9067C6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Weekly Chart
+            const salesWeeklyCtx = document.getElementById('salesWeeklyChart').getContext('2d');
+            new Chart(salesWeeklyCtx, {
+                type: 'line',
+                data: {
+                    labels: labelsWeekly,
+                    datasets: [{
+                        label: 'Penjualan (Rp)',
+                        data: totalsWeekly,
+                        borderColor: '#FF7E26',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Monthly Chart
+            const salesMonthlyCtx = document.getElementById('salesMonthlyChart').getContext('2d');
+            new Chart(salesMonthlyCtx, {
+                type: 'line',
+                data: {
+                    labels: labelsMonthly,
+                    datasets: [{
+                        label: 'Penjualan (Rp)',
+                        data: totalsMonthly,
+                        borderColor: '#FF7E26',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Average Spend Chart
+            const averageSpendCtx = document.getElementById('averageSpendChart').getContext('2d');
+            new Chart(averageSpendCtx, {
+                type: 'bar',
+                data: {
+                    labels: labelsAverage,
+                    datasets: [{
+                        label: 'Rata-rata Nilai Pesanan (Rp)',
+                        data: totalsAverage,
+                        backgroundColor: ['#FF7E26', '#FFD93D', '#00C897', '#3ABEF9', '#9067C6'],
+                        borderRadius: 10,
+                        borderWidth: 1,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 5000
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Sales by Product
+            const salesByProductCtx = document.getElementById('salesByProductChart').getContext('2d');
+            new Chart(salesByProductCtx, {
+                type: 'bar',
+                data: {
+                    labels: labelsFavourite,
+                    datasets: [{
+                        label: 'Penjualan',
+                        data: totalsFavourite,
+                        backgroundColor: ['#FF7E26', '#FFD93D', '#00C897', '#3ABEF9', '#9067C6'],
+                        borderRadius: 10,
+                        borderWidth: 1,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 5
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        initCharts();
+    </script>
+</body>
+</html>

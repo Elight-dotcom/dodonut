@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head') %>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <%- include('../partials/navbar') %>
+
+    <!-- Navigation Center -->
+    <div
+      class="mt-32 slider flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide mx-2 md:mx-10 lg:mx-16 py-4 px-2 scroll-smooth snap-x snap-mandatory"
+    >
+      <div
+        id="all"
+        onclick="filterCategory('all')"
+        class="item bg-primary hover:bg-dark text-white w-[160px] px-5 py-3 rounded-full text-center inline-block font-semibold text-sm transition-all duration-300 snap-center shadow-md cursor-pointer"
+      >
+        All
+      </div>
+      <div
+        id="signature"
+        onclick="filterCategory('⭐ Signature')"
+        class="item bg-primary hover:bg-dark text-white w-[160px] px-5 py-3 rounded-full text-center inline-block font-semibold text-sm transition-all duration-300 snap-center shadow-md cursor-pointer"
+      >
+        Signature
+      </div>
+      <div
+        id="fruity"
+        onclick="filterCategory('🍓 Fruity Punch')"
+        class="item bg-primary hover:bg-dark text-white w-[160px] px-5 py-3 rounded-full text-center inline-block font-semibold text-sm transition-all duration-300 snap-center shadow-md cursor-pointer"
+      >
+        Fruity Punch
+      </div>
+      <div
+        id="milky"
+        onclick="filterCategory('🍶 Milky Way')"
+        class="item bg-primary hover:bg-dark text-white w-[160px] px-5 py-3 rounded-full text-center inline-block font-semibold text-sm transition-all duration-300 snap-center shadow-md cursor-pointer"
+      >
+        Milky Way
+      </div>
+      <div
+        id="chocolata"
+        onclick="filterCategory('🍫 Chocolata')"
+        class="item bg-primary hover:bg-dark text-white w-[160px] px-5 py-3 rounded-full text-center inline-block font-semibold text-sm transition-all duration-300 snap-center shadow-md cursor-pointer"
+      >
+        Chocolata
+      </div>
+      <div
+        id="classic"
+        onclick="filterCategory('🍩 Classic')"
+        class="item bg-primary hover:bg-dark text-white w-[160px] px-5 py-3 rounded-full text-center inline-block font-semibold text-sm transition-all duration-300 snap-center shadow-md cursor-pointer"
+      >
+        Classic
+      </div>
+      <div
+        id="disaster"
+        onclick="filterCategory('🔥 Disaster')"
+        class="item bg-primary hover:bg-dark text-white w-[160px] px-5 py-3 rounded-full text-center inline-block font-semibold text-sm transition-all duration-300 snap-center shadow-md cursor-pointer"
+      >
+        Disaster
+      </div>
+      <div
+        id="season"
+        onclick="filterCategory('🎃 Season')"
+        class="item bg-primary hover:bg-dark text-white w-[160px] px-5 py-3 rounded-full text-center inline-block font-semibold text-sm transition-all duration-300 snap-center shadow-md cursor-pointer"
+      >
+        Season
+      </div>
+      <div
+        id="drinks"
+        onclick="filterCategory('🥤 Drinks')"
+        class="item bg-primary hover:bg-dark text-white w-[160px] px-5 py-3 rounded-full text-center inline-block font-semibold text-sm transition-all duration-300 snap-center shadow-md cursor-pointer"
+      >
+        Drinks
+      </div>
+    </div>
+
+    <div
+      id="loading"
+      class="fixed inset-0 bg-opacity-70 flex items-center justify-center z-50 hidden"
+    >
+      <div class="flex flex-col items-center">
+        <svg
+          class="animate-spin h-10 w-10 text-primary mb-2"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+          ></path>
+        </svg>
+        <p class="text-primary font-semibold">Loading...</p>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <main
+      id="productCard"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 mt-10 mx-auto place-items-center max-w-7xl mb-20"
+    ></main>
+
+    <!-- Modal Content -->
+    <div
+      id="cart"
+      class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 hidden animate-fade-in-down"
+    >
+      <div
+        class="relative w-full max-w-md mx-auto bg-white rounded-xl shadow-xl p-4"
+      >
+        <h1 class="text-center text-lg font-semibold">Keranjang Saya</h1>
+        <svg
+          onclick="toggleModal('cart')"
+          class="w-6 h-6 text-gray-800 absolute top-5 right-2 hover:cursor-pointer hover:text-gray-600"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18 17.94 6M18 18 6.06 6"
+          />
+        </svg>
+        <!-- Main Modal -->
+        <div class="h-96 overflow-y-auto scrollbar-modal mt-6 gap-4">
+          <div class="mainModalCart"></div>
+        </div>
+        <div class="mt-4 flex flex-row items-center justify-between">
+          <p class="text-primary font-semibold">
+            <span class="text-black">Total: </span>
+            <span class="cartTotal">Rp. 0</span>
+          </p>
+          <form id="checkoutForm" action="/checkout" method="POST">
+            <input type="hidden" name="items" id="checkoutItems" />
+          </form>
+          <button
+            onclick="handleCheckout()"
+            class="checkoutBtn bg-primary text-white font-semibold px-4 py-1 rounded-full text-sm hover:bg-dark transition-all"
+          >
+            CHECKOUT
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Stock abis -->
+    <div id="stock" class="fixed inset-0 bg-white bg-opacity-50 flex items-center hidden justify-center z-50 animate-fade-in-down">
+        <div class="relative w-full max-w-md mx-auto bg-white rounded-xl shadow-xl p-4">
+            <svg
+              onclick="toggleModal('stock')"
+              class="w-6 h-6 text-gray-800 absolute top-5 right-2 hover:cursor-pointer hover:text-gray-600"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18 17.94 6M18 18 6.06 6"
+              />
+            </svg>
+            <h1 class="text-center text-lg font-semibold">Stock Habis</h1>
+        </div>
+    </div>
+
+    <script>
+                      // Increment / Decrement Handler
+                      const cart = {};
+                      function renderCart() {
+                          const mainCart = document.querySelector('.mainModalCart');
+                          mainCart.innerHTML = '';
+
+                          let total = 0;
+
+                          Object.values(cart).forEach(item => {
+                              const itemTotal = item.price * item.quantity;
+                              total += itemTotal;
+
+                              mainCart.innerHTML += `
+                                  <div class="flex items-center justify-between mb-3">
+                                      <div class="flex items-center gap-3">
+                                          <div class="w-10 h-10 rounded-full overflow-hidden bg-dull">
+                                              <img src="${item.image}" class="object-cover w-full h-full">
+                                          </div>
+                                          <div>
+                                              <p class="font-medium text-sm">${item.name}</p>
+                                              <p class="text-xs text-gray-500">x${item.quantity}</p>
+                                          </div>
+                                      </div>
+                                      <div class="font-semibold text-sm">
+                                          Rp ${itemTotal.toLocaleString('id-ID')}
+                                      </div>
+                                  </div>
+                              `;
+                          });
+
+                          document.querySelector('.cartTotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
+                      }
+
+
+                      function toggleModal(id) {
+                          const modal = document.getElementById(id);
+                          if (modal.classList.contains('hidden')) {
+                              renderCart();
+                              modal.classList.remove('hidden');
+                          } else {
+                              modal.classList.add('hidden');
+                          }
+                      }
+
+                      function handleCheckout() {
+                          const items = Object.values(cart).map(item => ({
+                              id: item.id,
+                              qty: item.quantity
+                          }));
+
+                          const checkoutInput = document.getElementById('checkoutItems');
+                          checkoutInput.value = JSON.stringify(items);
+
+                          document.getElementById('checkoutForm').submit();
+                      }
+
+                      // Search
+                      const searchInput = document.getElementById('searchInput');
+                      const productNames = document.querySelectorAll('.productName');
+                      const cards = document.querySelectorAll('.card');
+
+                      searchInput.addEventListener('input', () => {
+                          const keyword = searchInput.value.toLowerCase();
+
+                          productNames.forEach((product, index) => {
+                              const text = product.textContent.toLowerCase();
+                              if (text.includes(keyword)) {
+                                  cards[index].style.display = 'block';
+                              } else {
+                                  cards[index].style.display = 'none';
+                              }
+                          });
+                      });
+
+                      function toogleSearch() {
+                          document.getElementById('search').classList.toggle('hidden');
+                      }
+
+                      // Search Navigation Center
+                      const products = <%- JSON.stringify(products) %>;
+                      function renderProducts(productsToRender) {
+                      showLoading();
+
+                      const container = document.getElementById('productCard');
+                      container.innerHTML = '';
+
+                      setTimeout(() => {
+                          if (productsToRender.length === 0) {
+                              container.innerHTML = `<p class="col-span-full text-center text-gray-500">Produk tidak ditemukan.</p>`;
+                              hideLoading();
+                              return;
+                          }
+
+                          productsToRender.forEach(product => {
+                              const categories = product.categories.map(cat =>
+                                  `<span style="background-color: #${cat.colour};" class="text-white text-xs font-semibold px-3 py-1 rounded-full">${cat.category_name}</span>`
+                              ).join('');
+
+                              if(product.stock > 0) {
+                                  container.innerHTML += `
+                                      <div class="card max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden p-4">
+                                          <div class="flex gap-2 mb-3">
+                                              ${categories}
+                                          </div>
+                                          <div class="flex justify-center mb-4 items-center">
+                                              <img src="${product.image}" alt="${product.name}" class="w-40 h-40 object-contain" />
+                                          </div>
+                                          <h2 class="text-lg font-bold text-gray-900 mb-2">${product.product_name}</h2>
+                                          <p class="text-sm text-gray-700 leading-snug">${product.description}</p>
+                                          <div class="flex items-center justify-between mt-4">
+                                              <p class="text-lg font-bold text-primary">${product.price.toLocaleString('id-ID')}</p>
+                                              <div class="product-counter flex items-center gap-2"
+                                                  data-id="${product.id_product}"
+                                                  data-name="${product.product_name}"
+                                                  data-price="${product.price}"
+                                                  data-image="${product.image}"
+                                                  data-stock="${product.stock}"
+                                              >
+                                                  <svg class="decrement w-6 h-6 text-primary hover:cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                      <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm5.757-1a1 1 0 1 0 0 2h8.486a1 1 0 1 0 0-2H7.757Z" clip-rule="evenodd"/>
+                                                  </svg>
+                                                  <p class="quantity">0</p>
+                                                  <svg class="increment w-6 h-6 text-primary hover:cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                      <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z" clip-rule="evenodd"/>
+                                                  </svg>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  `;
+                              }
+                          });
+
+                          productsToRender.forEach(product => {
+                              const categories = product.categories.map(cat =>
+                                  `<span style="background-color: #${cat.colour};" class="text-white text-xs font-semibold px-3 py-1 rounded-full">${cat.category_name}</span>`
+                              ).join('');
+
+                              if(product.stock <= 0) {
+                                  container.innerHTML += `
+                                      <div class="card max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden p-4">
+                                          <div class="flex gap-2 mb-3">
+                                              ${categories}
+                                          </div>
+
+                                          <div class="flex justify-center mb-4 relative">
+                                              <img src="${product.image}" alt="${product.product_name}"
+                                                  class="w-40 h-40 object-contain ${product.stock <= 0 ? 'opacity-50' : ''}" />
+
+                                                  <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 rounded-xl">
+                                                      <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                                          HABIS
+                                                      </span>
+                                                  </div>
+                                          </div>
+
+                                          <h2 class="text-lg font-bold text-gray-900 mb-2">${product.product_name}</h2>
+                                          <p class="text-sm text-gray-700 leading-snug">${product.description}</p>
+
+                                          <!-- Harga dan Counter -->
+                                          <div class="flex items-center justify-between mt-4">
+                                              <div class="flex flex-col">
+                                                  <p class="text-lg font-bold ${product.stock <= 0 ? 'text-gray-400 line-through' : 'text-primary'}">
+                                                      ${product.price.toLocaleString('id-ID')}
+                                                  </p>
+                                               </div>
+                                                  
+                                                  <div class="bg-gray-100 px-4 py-2 rounded-lg">
+                                                    <p class="text-sm text-red-500 font-semibold">Stok Habis</p>
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  `;
+                              }
+                          });
+
+                          attachCounterListeners();
+                          hideLoading();
+                          console.timeEnd('renderProducts');
+                      }, 30);
+                  }
+
+
+                  function filterCategory(category) {
+                      if (category === 'all') {
+                          renderProducts(products);
+                      } else {
+                          const filtered = products.filter(p =>
+                              p.categories.some(cat => cat.category_name === category)
+                          );
+                          renderProducts(filtered);
+                      }
+
+                      // Highlight tombol kategori yang aktif
+                      document.querySelectorAll('.item').forEach(el => {
+                          el.classList.remove('bg-dark');
+                      });
+                      const active = document.querySelector(`[onclick="filterCategory('${category}')"]`);
+                      if (active) active.classList.add('bg-dark');
+
+                      attachCounterListeners();
+                  }
+
+
+                  // Render pertama kali (semua produk)
+                  renderProducts(products);
+                  attachCounterListeners();
+
+                  function attachCounterListeners() {
+                      document.querySelectorAll('.product-counter').forEach(counter => {
+                          const increment = counter.querySelector('.increment');
+                          const decrement = counter.querySelector('.decrement');
+                          const quantityElem = counter.querySelector('.quantity');
+
+                          const productId = counter.dataset.id;
+                          const productName = counter.dataset.name;
+                          const productPrice = parseInt(counter.dataset.price.replace(/[^\d]/g, ''));;
+                          const productImage = counter.dataset.image;
+                          const productStock = parseInt(counter.dataset.stock);
+
+                          function updateCart(qty) {
+                              if (qty > 0) {
+                                  cart[productId] = {
+                                      id: productId,
+                                      name: productName,
+                                      price: productPrice,
+                                      image: productImage,
+                                      quantity: qty,
+                                  };
+                              } else {
+                                  delete cart[productId];
+                              }
+                          }
+
+                          increment.addEventListener('click', () => {
+                              let qty = parseInt(quantityElem.textContent) || 0;
+                              if (qty < productStock) {
+                                  qty++;
+                                  quantityElem.textContent = qty;
+                                  updateCart(qty);
+                              } else {
+                                  toggleModal('stock');
+                              }
+                          });
+
+                          decrement.addEventListener('click', () => {
+                              let qty = parseInt(quantityElem.textContent) || 0;
+                              if (qty > 0) {
+                                  qty--;
+                                  quantityElem.textContent = qty;
+                                  updateCart(qty);
+                              }
+                          });
+
+                          // Sinkronkan quantity dari cart ke tampilan
+                          const currentItem = cart[productId];
+                          if (currentItem) {
+                              quantityElem.textContent = currentItem.quantity;
+                          } else {
+                              quantityElem.textContent = 0;
+                          }
+
+                          console.log('productPrice raw:', counter.dataset.price);
+
+                      });
+                  }
+
+                  // Loading
+                  function showLoading() {
+                      document.getElementById('loading').classList.remove('hidden');
+                  }
+
+                  function hideLoading() {
+                      document.getElementById('loading').classList.add('hidden');
+                  }
+    </script>
+  </body>
+</html>

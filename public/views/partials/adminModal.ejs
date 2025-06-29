@@ -1,0 +1,465 @@
+<!-- Add or Edit Category Modal -->
+<div
+  id="categoryModal"
+  class="fixed hidden inset-0 bg-black bg-opacity-50 z-50"
+>
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+      <div class="flex justify-between items-center mb-4">
+        <h3 id="modalCategoryTitle" class="text-lg font-semibold">
+          Tambah Kategori
+        </h3>
+        <button
+          onclick="closeCategoryModal()"
+          class="text-gray-400 hover:text-gray-600"
+        >
+          <svg
+            class="w-6 h-6 text-gray-800 dark:text-white"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18 17.94 6M18 18 6.06 6"
+            />
+          </svg>
+        </button>
+      </div>
+      <form id="categoryForm" action="/admin/category/add" method="post">
+        <input type="hidden" id="categoryId" name="id" value="" />
+        <div class="mb-4">
+          <label
+            for="categoryName"
+            class="block text-sm font-medium text-gray-700"
+            >Nama Kategori</label
+          >
+          <input
+            type="text"
+            id="categoryName"
+            name="name"
+            class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="categoryColour"
+            class="block text-sm font-medium text-gray-700"
+            >Warna Kategori</label
+          >
+          <input
+            type="text"
+            id="categoryColour"
+            name="colour"
+            class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            placeholder="FF0000 (HEX)"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700">Preview</label>
+          <span
+            id="categoryPreview"
+            class="text-white text-xs font-semibold px-3 py-1 rounded-full"
+          >
+            Kategori
+          </span>
+        </div>
+        <div class="flex justify-end">
+          <button
+            type="submit"
+            class="px-4 py-2 bg-primary text-white rounded-md hover:bg-dark"
+          >
+            Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Add or Edit Product Modal -->
+<div id="productModal" class="fixed hidden inset-0 bg-black bg-opacity-50 z-50">
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+      <div class="flex justify-between items-center mb-4">
+        <h3 id="Modal Title" class="text-lg font-semibold">Tambah Produk</h3>
+        <button
+          onclick="closeProductModal()"
+          class="text-gray-400 hover:text-gray-600"
+        >
+          <svg
+            class="w-6 h-6 text-gray-800 dark:text-white"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18 17.94 6M18 18 6.06 6"
+            />
+          </svg>
+        </button>
+      </div>
+      <form
+        id="productForm"
+        action="/admin/edit"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <input type="hidden" id="productId" name="id" value="" />
+        <div class="mb-4">
+          <label
+            for="productName"
+            class="block text-sm font-medium text-gray-700 mb-2"
+            >Nama Produk</label
+          >
+          <input
+            type="text"
+            id="productName"
+            name="name"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="productImage"
+            class="block text-sm font-medium text-gray-700 mb-2"
+            >Gambar Produk</label
+          >
+          <input
+            type="file"
+            id="productImage"
+            name="image"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="productPrice"
+            class="block text-sm font-medium text-gray-700 mb-2"
+            >Harga</label
+          >
+          <input
+            type="number"
+            id="productPrice"
+            name="price"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="productStock"
+            class="block text-sm font-medium text-gray-700 mb-2"
+            >Stok</label
+          >
+          <input
+            type="number"
+            id="productStock"
+            name="stock"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="productDescription"
+            class="block text-sm font-medium text-gray-700 mb-2"
+            >Deskripsi</label
+          >
+          <textarea
+            name="description"
+            id="productDescription"
+            rows="3"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          ></textarea>
+        </div>
+        <div class="flex justify-end">
+          <button
+            type="submit"
+            class="px-4 py-2 bg-primary text-white rounded-md hover:bg-dark"
+          >
+            Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Category Product Modal -->
+<div
+  id="productCategoryModal"
+  class="fixed hidden inset-0 bg-black bg-opacity-50 z-50"
+>
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+      <!-- Header Modal -->
+      <div class="flex justify-between items-center mb-4">
+        <h3 id="productCategoryTitle" class="text-lg font-semibold">
+          Tambah / Hapus Kategori
+        </h3>
+        <button
+          onclick="closeCategoryProductModal()"
+          class="text-gray-400 hover:text-gray-600"
+        >
+          <svg
+            class="w-6 h-6 text-gray-800"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Info Produk -->
+      <div class="flex items-center mb-4">
+        <div
+          class="w-12 h-12 bg-dull rounded-full flex items-center justify-center overflow-hidden"
+        >
+          <img
+            id="proCatImage"
+            src="def"
+            alt="Product Image"
+            class="object-cover w-full h-full"
+          />
+        </div>
+        <div class="ml-4">
+          <div id="proCatName" class="text-sm font-medium text-gray-900">
+            Nama Produk
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <form
+        id="productCategoryForm"
+        action="/admin/product-category/update"
+        method="POST"
+      >
+        <input
+          type="hidden"
+          id="productCategoryId"
+          name="id_product"
+          value="number"
+        />
+
+        <div class="mb-4 space-y-2">
+          <% categories.forEach(category => { const checkboxId =
+          `category-${category.id_category}`; %>
+          <div class="flex items-center">
+            <input
+              type="checkbox"
+              id="<%= checkboxId %>"
+              name="category_ids[]"
+              value="<%= category.id_category %>"
+              class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+            />
+            <label for="<%= checkboxId %>" class="ml-2 text-sm text-gray-900">
+              <%= category.category_name %>
+            </label>
+          </div>
+          <% }); %>
+        </div>
+
+        <div class="flex justify-end">
+          <button
+            type="submit"
+            class="px-4 py-2 bg-primary text-white rounded-md hover:bg-dark"
+          >
+            Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Sales -->
+<div id="salesModal" class="fixed hidden inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+                <div class="bg-primary px-6 py-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-white flex items-center">
+                            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
+                            Detail Penjualan
+                        </h3>
+                        <button
+                            onclick="closeSalesModal()"
+                            class="text-white hover:text-gray-200 transition-colors p-1 rounded-full hover:bg-white hover:bg-opacity-20"
+                        >
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="p-6 overflow-y-auto max-h-[calc(90vh-80px)]">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-dull rounded-xl p-4 border border-primary">
+                            <div class="flex items-center">
+                                <div class="bg-blue-500 p-2 rounded-lg">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-gray-600">Tanggal</p>
+                                    <p id="salesDate" class="font-bold text-gray-900">12 Januari 2025</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-dull rounded-xl p-4 border border-primary">
+                            <div class="flex items-center">
+                                <div class="bg-green-500 p-2 rounded-lg">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-gray-600">Pelanggan</p>
+                                    <p id="salesName" class="font-bold text-gray-900">John Doe</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-dull rounded-xl p-4 border border-primary">
+                            <div class="flex items-center">
+                                <div class="bg-purple-500 p-2 rounded-lg">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-gray-600">Pembayaran</p>
+                                    <p id="salesPayment" class="font-bold text-gray-900">Tunai</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+                        <div class="bg-gray-50 px-6 py-3 border-b border-gray-200">
+                            <h4 class="text-lg font-semibold text-gray-900">Daftar Produk</h4>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">No</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Nama Produk</th>
+                                        <th class="px-6 py-4 text-right text-xs font-bold text-white uppercase tracking-wider">Harga Satuan</th>
+                                        <th class="px-6 py-4 text-center text-xs font-bold text-white uppercase tracking-wider">Jumlah</th>
+                                        <th class="px-6 py-4 text-right text-xs font-bold text-white uppercase tracking-wider">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailSales" class="bg-white divide-y divide-gray-200">
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="h-10 w-10 flex-shrink-0">
+                                                    <div class="h-10 w-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
+                                                        <span class="text-white font-bold text-sm">🍩</span>
+                                                    </div>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Donat Dinosaurus</div>
+                                                    <div class="text-sm text-gray-500">Makanan</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-medium">Rp 20.000</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                1x
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 text-right">Rp 20.000</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="h-10 w-10 flex-shrink-0">
+                                                    <div class="h-10 w-10 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+                                                        <span class="text-white font-bold text-sm">☕</span>
+                                                    </div>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Kopi Susu</div>
+                                                    <div class="text-sm text-gray-500">Minuman</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-medium">Rp 15.000</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                2x
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 text-right">Rp 30.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-t border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                    <span class="text-lg font-bold text-gray-900">Total Pembayaran</span>
+                                </div>
+                                <div class="text-right">
+                                    <div id="salesTotal" class="text-2xl font-bold text-green-600">Rp 50.000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button onclick="printInvoice()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition-colors flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+                            </svg>
+                            Cetak Invoice
+                        </button>
+                        <button onclick="closeSalesDetailModal()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                            Tutup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

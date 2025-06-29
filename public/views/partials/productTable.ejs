@@ -1,0 +1,50 @@
+<% products.forEach(product => { %>
+    <% const maxLength = 50;
+        const cleanDesc = product.description.replace(/[\r\n]+/g, ' ').trim();
+        const descFormatted = cleanDesc.length > maxLength ? 
+        cleanDesc.slice(0, maxLength) + '...' : 
+        cleanDesc; %>
+<tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= product.id_product %></td>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <div class="flex items-center">
+            <div class="w-10 h-10 bg-dull rounded-full flex items-center justify-center">
+                <img src="<%= product.image %>" alt="">
+            </div>
+            <div class="ml-4">
+                <div class="text-sm font-medium text-gray-900"><%= product.product_name %></div>
+                <div class="text-sm text-gray-500"><%= descFormatted %></div>
+            </div>
+        </div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= product.price %></td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= product.stock %></td>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <span class="px-2 py-1 text-xs font-semibold rounded-full <% if (product.stock > 0) { %>bg-green-100 text-green-800<% } else { %>bg-red-100 text-red-800<% } %>">
+            <% if (product.stock > 0) { %>Tersedia<% } else { %>Habis<% } %>
+        </span>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+        <div class="flex items-center gap-3">
+            <button 
+                data-id="<%= product.id_product %>"
+                data-name="<%= product.product_name %>"
+                data-price="<%= product.price %>"
+                data-stock="<%= product.stock %>"
+                data-description="<%= product.description %>"
+                class="btnEdit text-blue-600 hover:text-blue-900 flex items-center">
+                <svg class="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                </svg>
+                Edit
+            </button>
+            <button onclick="deleteProduct(<%= product.id_product %>)" class="text-red-600 hover:text-red-900 flex items-center">
+                <svg class="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                </svg>
+                Hapus
+            </button>
+        </div>
+    </td>
+</tr>
+<% }) %>
